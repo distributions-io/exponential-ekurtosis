@@ -1,13 +1,13 @@
-Ekurtosis
+Excess Kurtosis
 ===
 [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coverage Status][codecov-image]][codecov-url] [![Dependencies][dependencies-image]][dependencies-url]
 
-> [exponential](https://en.wikipedia.org/wiki/exponential_distribution) distribution [ekurtosis](https://en.wikipedia.org/wiki/ekurtosis).
+> [Exponential](https://en.wikipedia.org/wiki/exponential_distribution) distribution [excess kurtosis](https://en.wikipedia.org/wiki/Kurtosis).
 
-The [ekurtosis](https://en.wikipedia.org/wiki/ekurtosis) for a [exponential](https://en.wikipedia.org/wiki/exponential_distribution) random variable is
+The [excess kurtosis](https://en.wikipedia.org/wiki/Kurtosis) for an [exponential](https://en.wikipedia.org/wiki/exponential_distribution) random variable is
 
-<div class="equation" align="center" data-raw-text="\operatorname{}\left[ X \right] = " data-equation="eq:ekurtosis">
-	<img src="" alt="ekurtosis for a exponential distribution.">
+<div class="equation" align="center" data-raw-text="\gamma_2 = 6" data-equation="eq:ekurtosis">
+	<img src="https://cdn.rawgit.com/distributions-io/exponential-ekurtosis/f6c6077de08f361431c6708c4babc7d41e5b6383/docs/img/eqn.svg" alt="Excess kurtosis for an exponential distribution.">
 	<br>
 </div>
 
@@ -31,7 +31,7 @@ var ekurtosis = require( 'distributions-exponential-ekurtosis' );
 
 #### ekurtosis( lambda[, opts] )
 
-Computes the [ekurtosis](https://en.wikipedia.org/wiki/ekurtosis) for a [exponential](https://en.wikipedia.org/wiki/exponential_distribution) distribution with parameter `lambda`. `lambda` may be either a [`number`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number), an [`array`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array), a [`typed array`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays), or a [`matrix`](https://github.com/dstructs/matrix).
+Computes the [excess kurtosis](https://en.wikipedia.org/wiki/Kurtosis) for an [exponential](https://en.wikipedia.org/wiki/exponential_distribution) distribution with parameter `lambda`. `lambda` may be either a [`number`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number), an [`array`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array), a [`typed array`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays), or a [`matrix`](https://github.com/dstructs/matrix).
 
 ``` javascript
 var matrix = require( 'dstructs-matrix' ),
@@ -41,16 +41,16 @@ var matrix = require( 'dstructs-matrix' ),
 	i;
 
 out = ekurtosis( -1 );
-// returns ~NaN
+// returns NaN
 
 lambda = [ -1, 0, 0.5, 1 ];
 out = ekurtosis( lambda );
 
-// returns [ ~NaN, ~NaN, ~6.000, ~6.000 ]
+// returns [ NaN, NaN, 6, 6 ]
 
 lambda = new Float32Array( lambda );
 out = ekurtosis( lambda );
-// returns Float64Array( [~NaN,~NaN,~6.000,~6.000] )
+// returns Float64Array( [NaN,NaN,6,6] )
 
 lambda =  matrix( [ -1, 0, 0.5, 1 ], [2,2] );
 /*
@@ -60,8 +60,8 @@ lambda =  matrix( [ -1, 0, 0.5, 1 ], [2,2] );
 
 out = ekurtosis( lambda );
 /*
-	[ ~NaN ~NaN,
-	  ~6.000 ~6.000 ]
+	[ NaN NaN,
+	  6 6 ]
 */
 ```
 
@@ -90,7 +90,7 @@ function getValue( d, i ) {
 var out = ekurtosis( lambda, {
 	'accessor': getValue
 });
-// returns [ ~NaN, ~NaN, ~6.000, ~6.000 ]
+// returns [ NaN, NaN, 6, 6 ]
 ```
 
 To [deepset](https://github.com/kgryte/utils-deep-set) an object `array`, provide a key path and, optionally, a key path separator.
@@ -106,10 +106,10 @@ var lambda = [
 var out = ekurtosis( lambda, 'x|1', '|' );
 /*
 	[
-		{'x':[9,~NaN]},
-		{'x':[9,~NaN]},
-		{'x':[9,~6.000]},
-		{'x':[9,~6.000]},
+		{'x':[9,NaN]},
+		{'x':[9,NaN]},
+		{'x':[9,6]},
+		{'x':[9,6]},
 	]
 */
 
@@ -150,7 +150,7 @@ lambda = [ -1, 0, 0.5, 1 ];
 out = ekurtosis( lambda, {
 	'copy': false
 });
-// returns [ ~NaN, ~NaN, ~6.000, ~6.000 ]
+// returns [ NaN, NaN, 6, 6 ]
 
 bool = ( data === out );
 // returns true
@@ -165,8 +165,8 @@ out = ekurtosis( mat, {
 	'copy': false
 });
 /*
-	[ ~NaN ~NaN,
-	  ~6.000 ~6.000 ]
+	[ NaN NaN,
+	  6 6 ]
 */
 
 bool = ( mat === out );
@@ -176,7 +176,7 @@ bool = ( mat === out );
 
 ## Notes
 
-*	If an element is __not__ a positive number, the [ekurtosis](https://en.wikipedia.org/wiki/ekurtosis) is `NaN`.
+*	If an element is __not__ a positive number, the [excess kurtosis](https://en.wikipedia.org/wiki/Kurtosis) is `NaN`.
 
 	``` javascript
 	var lambda, out;
@@ -252,7 +252,7 @@ var lambda,
 // Plain arrays...
 lambda = new Array( 10 );
 for ( i = 0; i < lambda.length; i++ ) {
-	lambda[ i ] = i;
+	lambda[ i ] = i + 1;
 }
 out = ekurtosis( lambda );
 
@@ -283,7 +283,7 @@ out = ekurtosis( lambda, {
 // Typed arrays...
 lambda = new Float64Array( 10 );
 for ( i = 0; i < lambda.length; i++ ) {
-	lambda[ i ] = i;
+	lambda[ i ] = i + 1;
 }
 out = ekurtosis( lambda );
 
